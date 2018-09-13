@@ -2,8 +2,8 @@
 
 namespace FluffySpoon.Security.Hashing
 {
-    public class Hasher
-    {
+    public class Hasher : IHasher
+	{
 		public string Generate(string password) {
 			return Argon2.Hash(password);
 		}
