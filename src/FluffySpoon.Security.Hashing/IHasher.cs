@@ -4,5 +4,6 @@
 	{
 		string Generate(string password);
 		bool Verify(string hash, string value);
+		bool IsHashUpToDate(string hash);
 	}
 }

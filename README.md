@@ -1,19 +1,26 @@
 # FluffySpoon.Security
 Provides mechanisms for hashing.
 
-*Currently uses Argon2 - the best password hashing algorithm as of the 25th of February, 2018.*
+*Currently uses Argon2 - the best password hashing algorithm as of the 8th of November, 2018.*
 
-## Warning
-Do not update this NuGet package - keep it at the same version, as each version may use a different hashing mechanism. This package will always be updated to contain the most secure hashing implementation, so good for new projects.
+This package will always be updated to contain the most secure hashing implementation. Since it prefixes the method used in the hash ([which is considered secure](https://security.stackexchange.com/questions/197236/is-it-bad-practice-to-prefix-my-hash-with-the-algorithm-used)), it can automatically verify hashes that were generated with older implementations of the library.
+
+## Setup
+```csharp
+services.AddFluffySpoonHasher(/* optional pepper can be provided here */);
+```
 
 ## Use
-```
-var hasher = new Hasher();
+Inject an `IHasher` into your class. In the following example, the `IHasher` instance is in the variable `hasher`.
 
-var passwordToUse = "my_totally_safe_password";
+```csharp
+var passwordToHash = "my_totally_safe_password";
 
-var hash = hasher.Generate(passwordToUse);
-var isHashValid = hasher.Verify(hash, passwordToUse);
+var hash = hasher.Generate(passwordToHash);
 
-//isHashValid is now true since the hash corresponds to the entered password.
+//isHashValid will now be true since the hash corresponds to the entered password.
+var isHashValid = hasher.Verify(hash, passwordToHash);
+
+//isHashUpToDate will be true since "hash" was created using the latest hashing mechanism. useful for migrating old hashes.
+var isHashUpToDate = hasher.IsHashUpToDate(hash);
 ```
