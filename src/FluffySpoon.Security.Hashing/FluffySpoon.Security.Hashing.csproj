@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluffySpoon.Extensions.MicrosoftDependencyInjection" Version="1.0.9" />
-    <PackageReference Include="Isopoh.Cryptography.Argon2" Version="1.0.6" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+    <PackageReference Include="FluffySpoon.Extensions.MicrosoftDependencyInjection" Version="1.13.0" />
+    <PackageReference Include="Isopoh.Cryptography.Argon2" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
 </Project>
