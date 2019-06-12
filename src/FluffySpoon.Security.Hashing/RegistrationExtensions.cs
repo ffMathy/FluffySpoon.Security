@@ -9,7 +9,12 @@ namespace FluffySpoon.Security.Hashing
 			this IServiceCollection serviceCollection,
 			string pepper = null)
 		{
-			serviceCollection.AddAssemblyTypesAsImplementedInterfaces(typeof(RegistrationExtensions).Assembly);
+			serviceCollection.AddAssemblyTypesAsImplementedInterfaces(new RegistrationSettings() {
+                Assemblies = new []
+                {
+                    typeof(RegistrationExtensions).Assembly
+                }
+            });
 			serviceCollection.AddScoped(p => p.GetRequiredService<IHasherFactory>().Create(pepper));
 		}
 	}
