@@ -1,4 +1,5 @@
 ﻿using FluffySpoon.Extensions.MicrosoftDependencyInjection;
+using FluffySpoon.Security.Hashing.Strategies;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FluffySpoon.Security.Hashing
@@ -15,6 +16,7 @@ namespace FluffySpoon.Security.Hashing
                     typeof(RegistrationExtensions).Assembly
                 }
             });
+            serviceCollection.AddScoped<IVersionStrategy, Argon2VersionStrategy>();
 			serviceCollection.AddScoped(p => p.GetRequiredService<IHasherFactory>().Create(pepper));
 		}
 	}

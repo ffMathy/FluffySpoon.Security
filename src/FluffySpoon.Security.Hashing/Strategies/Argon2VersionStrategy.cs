@@ -2,7 +2,7 @@
 
 namespace FluffySpoon.Security.Hashing.Strategies
 {
-    class Argon2VersionStrategy : ILatestVersionStrategy, IVersionStrategy
+    class Argon2VersionStrategy : IVersionStrategy
     {
         private readonly IArgon2Settings settings;
 

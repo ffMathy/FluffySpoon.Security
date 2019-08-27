@@ -20,7 +20,7 @@ namespace FluffySpoon.Security.Hashing.Tests
 				var password = "my-password";
 				var hash = hasher.Generate(password);
 
-				var latestVersionStrategy = scope.ServiceProvider.GetRequiredService<ILatestVersionStrategy>();
+				var latestVersionStrategy = scope.ServiceProvider.GetRequiredService<IVersionStrategy>();
 				var hashWithoutPrefix = hash.Substring(latestVersionStrategy.Prefix.Length + "$fluffy-spoon$$".Length);
 
 				Assert.IsTrue(hasher.Verify(hashWithoutPrefix, password));
@@ -31,5 +31,32 @@ namespace FluffySpoon.Security.Hashing.Tests
 				Assert.IsFalse(hasher.IsHashUpToDate(hashWithoutPrefix));
 			}
 		}
-	}
+
+        [TestMethod]
+        public void TestPKBDF2Method()
+        {
+            var services = new ServiceCollection();
+            services.AddFluffySpoonHasher("pepsi");
+            services.AddScoped<IVersionStrategy, PKBDF2VersionStrategy>();
+
+            using (var container = services.BuildServiceProvider())
+            using (var scope = container.CreateScope())
+            {
+                var hasher = scope.ServiceProvider.GetRequiredService<IHasher>();
+
+                var password = "my-password";
+                var hash = hasher.Generate(password);
+
+                var latestVersionStrategy = scope.ServiceProvider.GetRequiredService<IVersionStrategy>();
+                var hashWithoutPrefix = hash.Substring(latestVersionStrategy.Prefix.Length + "$fluffy-spoon$$".Length);
+
+                Assert.IsTrue(hasher.Verify(hashWithoutPrefix, password));
+                Assert.IsTrue(hasher.Verify(hash, password));
+                Assert.IsFalse(hasher.Verify(hash, "foobar"));
+
+                Assert.IsFalse(hasher.IsHashUpToDate(hash));
+                Assert.IsFalse(hasher.IsHashUpToDate(hashWithoutPrefix));
+            }
+        }
+    }
 }

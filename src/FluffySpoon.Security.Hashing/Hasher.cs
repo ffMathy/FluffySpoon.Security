@@ -8,18 +8,17 @@ namespace FluffySpoon.Security.Hashing
 	class Hasher : IHasher
 	{
 		private readonly IEnumerable<IVersionStrategy> strategies;
-		private readonly ILatestVersionStrategy latestVersionStrategy;
+		private readonly IVersionStrategy latestVersionStrategy;
 
 		private readonly string pepper;
 
 		public Hasher(
 			IEnumerable<IVersionStrategy> strategies,
-			ILatestVersionStrategy latestVersionStrategy,
 			string pepper = null)
 		{
 			this.strategies = strategies;
 			this.pepper = pepper;
-			this.latestVersionStrategy = latestVersionStrategy;
+			this.latestVersionStrategy = strategies.Last();
 		}
 
 		public string Generate(string password)
@@ -33,7 +32,7 @@ namespace FluffySpoon.Security.Hashing
 		public bool IsHashUpToDate(string hash)
 		{
 			var strategy = FindStrategyForHash(hash);
-			return strategy is ILatestVersionStrategy && hash.StartsWith(GeneratePrefix(strategy.Prefix));
+			return strategy is Argon2VersionStrategy && hash.StartsWith(GeneratePrefix(strategy.Prefix));
 		}
 
 		public bool Verify(string hash, string value)
