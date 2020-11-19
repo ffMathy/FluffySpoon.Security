@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluffySpoon.Extensions.MicrosoftDependencyInjection" Version="1.14.0" />
-    <PackageReference Include="Isopoh.Cryptography.Argon2" Version="1.1.2" />
+    <PackageReference Include="Isopoh.Cryptography.Argon2" Version="1.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
   </ItemGroup>
